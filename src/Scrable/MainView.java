@@ -28,6 +28,5 @@ public class MainView extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-
     }
 }
