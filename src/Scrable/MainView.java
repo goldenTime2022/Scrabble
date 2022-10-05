@@ -36,7 +36,6 @@ public class MainView extends Application {
         }catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }
 
