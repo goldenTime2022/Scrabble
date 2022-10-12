@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.*;
 import java.nio.Buffer;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class MainView extends Application {
