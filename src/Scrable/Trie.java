@@ -1,41 +1,34 @@
 package Scrable;
 
 public class Trie {
-    static final int ALPHABET_SIZE = 26;
     static TrieNode root = new TrieNode() ;
-
-    static class TrieNode {
-        TrieNode[] children = new TrieNode[26];
-        boolean isEndOfWord;
-        int wordCount;
-        TrieNode(){
-            isEndOfWord = false;
-            for(int i=0; i < ALPHABET_SIZE; i++){
-                children[i] =null;
-            }
-            wordCount = 0;
-        }
+    TrieNode[] children = new TrieNode[26];
+    public Trie(){
+        root = new TrieNode();
     }
-
-    public static void insert(String s){
+    public static void insert(String word){
         TrieNode current = root;
-        for (char c: s) {
-            if(current.children[c] == null){
-                current.children[c] = new TrieNode();
+        char[] charArr = word.toCharArray();
+        for (char curChar: charArr) {
+            if(current.children.containsKey(curChar) == false){
+                current.children.put(curChar, new TrieNode());
             }
             //update currentNode
-            current = current.children[c];
+            current = current.children.get(curChar);
         }
+        current.isWord=true;
     }
-    public static boolean trieSearch(String s){
+    public static boolean trieSearch(String word){
         TrieNode current = root;
-        for(char c: s){
-            if(current.children[c] == null){
+        char[] charArr = word.toCharArray();
+        for (char curChar: charArr) {
+            if(current.children.containsKey(curChar) == false){
                 return false;
             }
-            current = current.children[c];
+            //update currentNode
+            current = current.children.get(curChar);
         }
-        return true;
+        return current.isWord;
     }
 
 }
