@@ -40,22 +40,34 @@ public class MainView extends Application {
 
         //start scan the board
         File fileBoard = new File("C:\\Users\\yun\\IdeaProjects\\scrabblegame\\dictionaryFile\\small_board.txt");
-        Scanner scan_Board = new Scanner(fileBoard);
-        String d = scan_Board.nextLine();
-        int dimension = Integer.parseInt(d);
-        String[][] twoD_board = new String[dimension][dimension];
+        try {
+            Scanner scan_Board = new Scanner(fileBoard);
 
-        while(scan_Board.hasNextLine()){
-            for(int i=0; i<dimension; i++){
-                String b= scan_Board.nextLine();
-                for(int j=0; j<dimension; j++) {
-                    twoD_board[i] = b.split(" ");
-                    System.out.println(twoD_board[i][j]);
+            String d = scan_Board.nextLine();
+            int dimension = Integer.parseInt(d);
+            String each_square;
+            char[] charArr;
+            scan_Board.useDelimiter(" ");
+            String[][] twoD_board = new String[dimension][dimension];
+            for (int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++) {
+                    if(scan_Board.hasNext()){
+                        each_square = scan_Board.next();
+                        charArr = each_square.toCharArray();
+                        for(int k=0; k<2; k++){
+                            if(charArr[0]!=null){
+                                square.
+                            }
+                        }
+                        System.out.println(each_square[i][j]);
+                        twoD_board[i][j]= square[];
+                    }
                 }
-
+                //put b into each tile by calling making board
+                // Board??
             }
-            //put b into each tile by calling making board
-           // Board??
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
