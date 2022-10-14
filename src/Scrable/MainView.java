@@ -45,7 +45,8 @@ public class MainView extends Application {
 
         Tile tile = new Tile('0',0);
         //hashmap store (tile, frequency)
-        HashMap<Tile, Integer> listOfTiles = new HashMap<Tile, Integer>();
+        int tileCount=0;
+        HashMap<Integer,Tile> listOfTiles = new HashMap<Integer,Tile>();
         try{
             Scanner scnr_tile_frequency = new Scanner(file_tile_frequency);
 
@@ -56,7 +57,10 @@ public class MainView extends Application {
                 //System.out.println(values[2]);
                 tile =new Tile(values[0].charAt(0), Integer.parseInt(values[1]));
                 //System.out.println(tile);
-                listOfTiles.put(tile, Integer.parseInt(values[2]));
+                for(int i=0; i<Integer.parseInt(values[2]); i++) {
+                    listOfTiles.put(tileCount, tile);
+                    tileCount++;
+                }
                 //System.out.println( "1st = "+ values[0].charAt(0)  +"; 2nd = " +Integer.parseInt(values[1]) +"; 3rd = " + Integer.parseInt(values[2]));
                }
         }catch (FileNotFoundException e){
@@ -64,14 +68,30 @@ public class MainView extends Application {
         }catch(IOException e){
             e.printStackTrace();
         }
-        System.out.println();
-        System.out.println(listOfTiles.entrySet());
+        //System.out.println();
+        //System.out.println("scramble Bag: "+listOfTiles.entrySet());
+        //System.out.println("----------------------------------------");
         //////////////////////////////////////////////////////////////////////////////////////////////
-        //player take one from bag of scramble
-
+        //player take up to 7 scrambles from scramble bag
+        Map<Integer, Tile> humanPlayerMap = new HashMap<>();
+        for(int i=0; i<7; i++){
+            humanPlayer.take1(humanPlayerMap, listOfTiles);
+        }
+        //System.out.println("humanPlayer: "+ humanPlayerMap.entrySet());
+        //System.out.println("----------------------------------------");
 
         ///////////////////////////////////////////////////////////////////////////////////
-        //computer take one from bag of scramble
+        //computer take up to 7 from scramble bag
+        Map<Integer, Tile> computerPlayerMap = new HashMap<>();
+        for(int i=0; i<7; i++){
+            computerPlayer.take1(computerPlayerMap, listOfTiles);
+        }
+        System.out.println("computerplayer: "+ computerPlayerMap.entrySet());
+        System.out.println("----------------------------------------");
+        //System.out.println("after both player take, Now bag left: "+ listOfTiles.entrySet());
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        //humanPlayer.chooseKey(humanPlayerMap);// not sure if I need this method?????????????
 
 ////////////////////////////////////////////////////////////////////////////////////////
         //start scan the board
