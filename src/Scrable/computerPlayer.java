@@ -1,5 +1,6 @@
 package Scrable;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,12 @@ public class computerPlayer {
             computerPlayerMap.put(k, listOfTiles.get(k));
             listOfTiles.remove(k);
         }
+        /*Random r= new Random();
+        for(int i=0; i< 7; i++) {
+            System.out.println(listOfTiles.get(r.nextInt(listOfTiles.size())));
+            computerPlayer.
+        }*/
+
 
     }
 }

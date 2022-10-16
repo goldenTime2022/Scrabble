@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 import java.nio.Buffer;
@@ -116,6 +117,9 @@ public class MainView extends Application {
             for (int i = 0; i < 7; i++) {
                 computerPlayer.take1(computerPlayerMap, listOfTiles);
             }
+            //int sizeOfComputerPlayer =7;
+            //Array[] computerPlayerMap = new Array[sizeOfComputerPlayer];
+            //computerPlayer.take1(computerPlayerMap, listOfTiles);
             System.out.println("computerplayer: " + computerPlayerMap.entrySet());
             System.out.println("----------------------------------------");
             //System.out.println("after both player take, Now bag left: "+ listOfTiles.entrySet());

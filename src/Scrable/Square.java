@@ -63,7 +63,7 @@ public class Square {
             }
             returnStatement = firstSpace + secondSpace;
         }else{
-            returnStatement = " "+tile.getLetter();// how to get tile if it is occupied, how to add tile into board??????
+            returnStatement = " "+tile.getLetter();
         }
         return returnStatement;
     }
