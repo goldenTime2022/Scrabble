@@ -1,24 +1,24 @@
 package Scrable;
 
 public class Tile {
-    char letter;
+    String letter;
     int value;
 
 
-    public Tile(char letter, int value) {
+    public Tile(String letter, int value) {
         this.letter = letter;
         this.value = value;
 
     }
 
-    public char getLetter(){
+    public String getLetter(){
         return this.letter;
     }
     public int getValue(){
         return this.value;
     }
 
-    public void setLetter(char letter) {
+    public void setLetter(String letter) {
         this.letter = letter;
     }
 

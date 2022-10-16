@@ -3,11 +3,13 @@ package Scrable;
 public class Square {
     int wordMultiplier;
     int letterMultiplier;
+    Tile tile;
     boolean occupied;
 
-    public Square(int wordMultiplier, int letterMultiplier, boolean occupied) {
+    public Square(int wordMultiplier, int letterMultiplier, boolean occupied, Tile tile) {
         this.wordMultiplier = wordMultiplier;
         this.letterMultiplier = letterMultiplier;
+        this.tile = tile;
         this.occupied = occupied;
     }
 
@@ -35,12 +37,34 @@ public class Square {
         this.occupied = occupied;
     }
 
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
+    }
+
     @Override
     public String toString() {
-        return "Square{" +
-                "wordMultiplier=" + wordMultiplier +
-                ", letterMultiplier=" + letterMultiplier +
-                ", occupied=" + occupied +
-                '}';
+        String firstSpace = null;
+        String secondSpace =null;
+        String returnStatement=null;
+        if(occupied == false) {
+            if(wordMultiplier == 0 && letterMultiplier == 0){
+                firstSpace = ".";
+                secondSpace = ".";
+            }else if (wordMultiplier == 0) {
+                firstSpace = ".";
+                secondSpace = Integer.toString(letterMultiplier);
+            } else if (letterMultiplier == 0) {
+                firstSpace = Integer.toString(wordMultiplier);
+                secondSpace = ".";
+            }
+            returnStatement = firstSpace + secondSpace;
+        }else{
+            returnStatement = " "+tile.getLetter();// how to get tile if it is occupied, how to add tile into board??????
+        }
+        return returnStatement;
     }
 }
