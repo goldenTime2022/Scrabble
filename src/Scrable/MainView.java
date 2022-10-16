@@ -35,6 +35,7 @@ public class MainView extends Application {
                 Trie.insert(s);
                 //System.out.println(Trie.); // how to print out trie Data structure
             }
+            scnr.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -63,6 +64,7 @@ public class MainView extends Application {
                 }
                 //System.out.println( "1st = "+ values[0].charAt(0)  +"; 2nd = " +Integer.parseInt(values[1]) +"; 3rd = " + Integer.parseInt(values[2]));
             }
+            scnr_tile_frequency.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -81,46 +83,40 @@ public class MainView extends Application {
             Scanner scan_Board = new Scanner(fileBoard);
             String d = scan_Board.nextLine();
             int dimension = Integer.parseInt(d);
+            scan_Board.useDelimiter(" ");
             String value;
             char[] charArr;
-            scan_Board.useDelimiter(" ");
             Square[][] square = new Square[dimension][dimension];
-            for (int i = 0; i < dimension; i++) {
-                for (int j = 0; j < dimension; j++) {
+            for (int i = 0; scan_Board.hasNextLine(); i++) {
+                for (int j = 0; j<dimension; j++) {
                     if (scan_Board.hasNext()) {
-                        value = scan_Board.next();
-                        //System.out.println("scan value: " + value);
+                        value = scan_Board.next();// this is the one cause trouble???????????????????????? this scan the extra one
+                        System.out.print("j = " + j + "; value = " + value + " // ");
                         charArr = value.toCharArray();
                         square[i][j] = new Square(0, 0, false, null);
                         //System.out.println("charArr[0] = " + charArr[0]);
                         //System.out.println("charArr[1] = " + charArr[1]);
                         if (charArr[0] == ' ') {
                             square[i][j].setOccupied(true);
-                            //Tile tile = new Tile(charArr[1]);//  how to add tile into the board?????????????????
-                            //System.out.println("tile = " + tile );
                         } else if (charArr[0] == '.' && charArr[1] == '.') {
                             square[i][j].setWordMultiplier(0);
                             square[i][j].setLetterMultiplier(0);
                         } else if (charArr[0] == '.') {
-                            square[i][j].setWordMultiplier(charArr[1] - 48);
+                            square[i][j].setLetterMultiplier(charArr[1] - 48);
                         } else if (charArr[1] == '.') {
-                            square[i][j].setLetterMultiplier(charArr[0] - 48);
+                            square[i][j].setWordMultiplier(charArr[0] - 48);
                         }
                         //System.out.println("square[" + i + "][" + j + "] = " + square[i][j]);
                     }
-                    System.out.println(square[i][j]);
+                    //System.out.print(square[i][j] +" ");
                 }
+                System.out.println();
+                System.out.println("--------------------------------------------");
             }
-
+            scan_Board.close();
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }
-
-
-
-
-
-
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //start scan the board
@@ -159,6 +155,7 @@ public class MainView extends Application {
                         scan_Boardscan_Board.nextLine();
                     }
                 }
+                scan_Board.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }*/
@@ -190,17 +187,20 @@ public class MainView extends Application {
         Scanner scan_tile_key = new Scanner(System.in);
         int tile_inputKey = scan_tile_key.nextInt();
         System.out.println("You choose : "+humanPlayerMap.get(tile_inputKey));
+        scan_tile_key.close();
 
 
         System.out.println(" please choose the row you want to put: ");
         Scanner scan_row = new Scanner(System.in);
         int row_input =  scan_row.nextInt();
         System.out.println("scan_row = " + row_input);
+        scan_row.close();
 
         System.out.println(" please choose the column you want to put: ");
         Scanner scan_column = new Scanner(System.in);
         int column_input = scan_column.nextInt();
         System.out.println("scan_column = " + column_input);
+        scan_column.close();
 
         //add tile into the board
         square[row_input][column_input].setTile(humanPlayerMap.get(tile_inputKey));
