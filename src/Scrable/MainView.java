@@ -67,10 +67,9 @@ public class MainView extends Application {
             scnr_tile_frequency.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
         }
-        //catch(IOException e){
-        //e.printStackTrace();
-        //}
         //System.out.println();
         //System.out.println("scramble Bag: "+listOfTiles.entrySet());
         //System.out.println("----------------------------------------");
@@ -133,26 +132,22 @@ public class MainView extends Application {
             ///////////////////////////////////////////////////////////////////////////////////////////////////
             //human player add the tile to board
             System.out.println("Please choose the key for the tile you want to add to the board: ");
-            Scanner scan_tile_key = new Scanner(System.in);
-            int tile_inputKey = scan_tile_key.nextInt();
+            Scanner scan_input = new Scanner(System.in);
+            int tile_inputKey = scan_input.nextInt();
             System.out.println("You choose : " + humanPlayerMap.get(tile_inputKey));
-            scan_tile_key.close();
 
-
-            System.out.println(" please choose the row you want to put: ");
-            Scanner scan_row = new Scanner(System.in);
-            int row_input = scan_row.nextInt();
+            System.out.println(" please choose the row you want to put: (the range is between 0 to "+ dimension + ")");
+            int row_input = scan_input.nextInt();
             System.out.println("scan_row = " + row_input);
-            scan_row.close();
 
             System.out.println(" please choose the column you want to put: ");
-            Scanner scan_column = new Scanner(System.in);
-            int column_input = scan_column.nextInt();
+            int column_input = scan_input.nextInt();
             System.out.println("scan_column = " + column_input);
-            scan_column.close();
 
             //add tile into the board
             square[row_input][column_input].setTile(humanPlayerMap.get(tile_inputKey));
+            square[row_input][column_input].setOccupied(true);
+
             for (int i = 0; i < dimension; i++) {
                 for (int j = 0; j < dimension; j++) {
                     System.out.print(square[i][j] + " ");
