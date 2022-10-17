@@ -7,20 +7,11 @@ import java.util.Map;
 import java.util.Random;
 
 public class computerPlayer {
-    public static void take1(Map computerPlayerMap, Map listOfTiles){
+    public static void take1(List<Tile> computerPlayerTray, List<Tile> listOfTiles){
         Random random = new Random();
-        List<Integer> keys = new ArrayList<Integer>(listOfTiles.keySet());
-        int k = keys.get( random.nextInt(keys.size()));
-        if (listOfTiles.containsKey(k)) {
-            computerPlayerMap.put(k, listOfTiles.get(k));
-            listOfTiles.remove(k);
-        }
-        /*Random r= new Random();
-        for(int i=0; i< 7; i++) {
-            System.out.println(listOfTiles.get(r.nextInt(listOfTiles.size())));
-            computerPlayer.
-        }*/
-
-
+        int index = random.nextInt(listOfTiles.size());
+        //System.out.println("Random Element is :" + listOfTiles.get(index));
+        computerPlayerTray.add(listOfTiles.get(index));
+        listOfTiles.remove(listOfTiles.get(index));
     }
 }

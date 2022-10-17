@@ -3,14 +3,12 @@ package Scrable;
 import java.util.*;
 
 public class humanPlayer {
-    public static void take1(Map humanPlayerMap, Map listOfTiles){
+    public static void take1(List<Tile> humanPlayerTray, List<Tile> listOfTiles){
         Random random = new Random();
-        List<Integer> keys = new ArrayList<Integer>(listOfTiles.keySet());
-        int k = keys.get( random.nextInt(keys.size()));
-        if (listOfTiles.containsKey(k)) {
-            humanPlayerMap.put(k, listOfTiles.get(k));
-            listOfTiles.remove(k);
-        }
+        int index = random.nextInt(listOfTiles.size());
+        //System.out.println("Random Element is :" + listOfTiles.get(index));
+        humanPlayerTray.add(listOfTiles.get(index));
+        listOfTiles.remove(listOfTiles.get(index));
 
     }
     public static Integer chooseKey(Map humanPlayerMap){

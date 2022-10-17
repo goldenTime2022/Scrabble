@@ -14,6 +14,7 @@ import java.util.*;
 import java.io.*;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainView extends Application {
     //private static String[] clargs;
@@ -47,8 +48,9 @@ public class MainView extends Application {
 
         Tile tile = new Tile("0", 0);
         //hashmap store (tile, frequency)
-        int tileCount = 0;
-        HashMap<Integer, Tile> listOfTiles = new HashMap<Integer, Tile>();
+
+        //HashMap<Integer, Tile> listOfTiles = new HashMap<Integer, Tile>();
+        List<Tile> listOfTiles = new ArrayList<>();
         try {
             Scanner scnr_tile_frequency = new Scanner(file_tile_frequency);
 
@@ -60,15 +62,13 @@ public class MainView extends Application {
                 tile = new Tile(values[0], Integer.parseInt(values[1]));
                 //System.out.println(tile);
                 for (int i = 0; i < Integer.parseInt(values[2]); i++) {
-                    listOfTiles.put(tileCount, tile);
-                    tileCount++;
+                    listOfTiles.add(tile);
                 }
                 //System.out.println( "1st = "+ values[0].charAt(0)  +"; 2nd = " +Integer.parseInt(values[1]) +"; 3rd = " + Integer.parseInt(values[2]));
             }
+            System.out.println(listOfTiles.size());
             scnr_tile_frequency.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch(IOException e){
             e.printStackTrace();
         }
         //System.out.println();
@@ -109,36 +109,50 @@ public class MainView extends Application {
             }
             scan_Board.close();
 
-
             ///////////////////////////////////////////////////////////////////////////////////
-
             //computer take up to 7 from scramble bag
-            Map<Integer, Tile> computerPlayerMap = new HashMap<>();
+            List<Tile> computerPlayerTray = new ArrayList<>();
+            System.out.println("Computer tray: ");
             for (int i = 0; i < 7; i++) {
-                computerPlayer.take1(computerPlayerMap, listOfTiles);
+                computerPlayer.take1(computerPlayerTray, listOfTiles);
+                System.out.print(computerPlayerTray.get(i).getLetter() +" ");
             }
-            //int sizeOfComputerPlayer =7;
-            //Array[] computerPlayerMap = new Array[sizeOfComputerPlayer];
-            //computerPlayer.take1(computerPlayerMap, listOfTiles);
-            System.out.println("computerplayer: " + computerPlayerMap.entrySet());
-            System.out.println("----------------------------------------");
-            //System.out.println("after both player take, Now bag left: "+ listOfTiles.entrySet());
+            System.out.println();
 
             //////////////////////////////////////////////////////////////////////////////////////////////
             //player take up to 7 scrambles from scramble bag
-            Map<Integer, Tile> humanPlayerMap = new HashMap<>();
+            //Map<Integer, Tile> humanPlayerMap = new HashMap<>();
+            List<Tile> humanPlayerTray = new ArrayList<>();
+            System.out.println("Human tray: ");
             for (int i = 0; i < 7; i++) {
-                humanPlayer.take1(humanPlayerMap, listOfTiles);
+                humanPlayer.take1(humanPlayerTray, listOfTiles);
+                System.out.print( humanPlayerTray.get(i).getLetter() +" ");
             }
-            System.out.println("humanPlayer: " + humanPlayerMap.entrySet());
-
-
+            System.out.println();
             ///////////////////////////////////////////////////////////////////////////////////////////////////
             //human player add the tile to board
-            System.out.println("Please choose the key for the tile you want to add to the board: ");
+            System.out.println("Please choose the tile you want to add to the board: ");
             Scanner scan_input = new Scanner(System.in);
-            int tile_inputKey = scan_input.nextInt();
-            System.out.println("You choose : " + humanPlayerMap.get(tile_inputKey));
+            String tile_input = scan_input.next();
+            char[] humanInputCharArr = tile_input.toCharArray();
+            System.out.println(" tile_input = "+ tile_input);
+            List<Tile> human_tryList = new ArrayList<>();
+            for(int j=0; j< humanInputCharArr.length; j++){
+                for(int i=0; i< humanPlayerTray.size(); i++) {
+                    //System.out.println(humanPlayerTray.get(i).getLetter().equals(tile_input));
+                    //System.out.println(humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[0])));
+                    if (humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[j]))) {
+                        human_tryList.add(humanPlayerTray.get(i));
+                        System.out.println("humanPlayerTray.get(i) = " + humanPlayerTray.get(i));
+                        humanPlayerTray.remove(i);
+                        break;
+
+                    }
+                }
+            }
+            System.out.println("human_tryList stream: "+human_tryList.stream().toList());
+            System.out.println("humanPlayerTray stream: "+humanPlayerTray.stream().toList());
+
 
             System.out.println(" please choose the row you want to put: (the range is between 0 to "+ dimension + ")");
             int row_input = scan_input.nextInt();
@@ -148,9 +162,25 @@ public class MainView extends Application {
             int column_input = scan_input.nextInt();
             System.out.println("scan_column = " + column_input);
 
-            //add tile into the board
-            square[row_input][column_input].setTile(humanPlayerMap.get(tile_inputKey));
-            square[row_input][column_input].setOccupied(true);
+            System.out.println(" please choose the direction you want to put: (right for 'r'; down for 'd') " );
+            String direction_human = scan_input.next();
+            System.out.println("direction_human = " + direction_human);
+
+            //add 1st tile into the board
+            int rightAdjust=0;
+            int downAdjust = 0;
+            String direction;
+            for(int i=0; i< human_tryList.size(); i++) {
+                if(direction_human.equals("r")){
+                    downAdjust=i;
+                    square[row_input+rightAdjust][column_input+downAdjust].setTile(human_tryList.get(i));
+                    square[row_input+rightAdjust][column_input+downAdjust].setOccupied(true);
+                }else if(direction_human.equals("d")) {
+                    rightAdjust = i;
+                    square[row_input + rightAdjust][column_input + downAdjust].setTile(human_tryList.get(i));
+                    square[row_input + rightAdjust][column_input + downAdjust].setOccupied(true);
+                }
+            }
 
             for (int i = 0; i < dimension; i++) {
                 for (int j = 0; j < dimension; j++) {
@@ -162,5 +192,6 @@ public class MainView extends Application {
             e.printStackTrace();
         }
     }
+
 }
 

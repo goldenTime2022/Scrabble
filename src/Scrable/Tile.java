@@ -22,11 +22,12 @@ public class Tile {
         this.value = value;
     }
     public String toString(){
-        return ""+ letter +"{" + value +"}";
+        return letter+" "+ value;
+        //return ""+ letter +"{" + value +"}";
     }
 
-    public boolean equals(Tile tile){
-        if(this.letter == tile.letter){
+    public boolean equalsTile(String letter){
+        if(this.letter.equals(letter)){
             return true;
         }else{
             return false;
