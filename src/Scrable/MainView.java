@@ -131,6 +131,7 @@ public class MainView extends Application {
             System.out.println();
             ///////////////////////////////////////////////////////////////////////////////////////////////////
             //human player add the tile to board
+            int human_point=0;
             System.out.println("Please choose the tile you want to add to the board: ");
             Scanner scan_input = new Scanner(System.in);
             String tile_input = scan_input.next();
@@ -143,6 +144,7 @@ public class MainView extends Application {
                     //System.out.println(humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[0])));
                     if (humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[j]))) {
                         human_tryList.add(humanPlayerTray.get(i));
+                        human_point += humanPlayerTray.get(i).getValue();
                         System.out.println("humanPlayerTray.get(i) = " + humanPlayerTray.get(i));
                         humanPlayerTray.remove(i);
                         break;
@@ -151,14 +153,15 @@ public class MainView extends Application {
                 }
             }
             System.out.println("human_tryList stream: "+human_tryList.stream().toList());
+            System.out.println("1. human player's point = "+ human_point);
             System.out.println("humanPlayerTray stream: "+humanPlayerTray.stream().toList());
 
 
-            System.out.println(" please choose the row you want to put: (the range is between 0 to "+ dimension + ")");
+            System.out.println(" please choose the row you want to put: (the range is between 1 to "+ dimension + ")");
             int row_input = scan_input.nextInt();
             System.out.println("scan_row = " + row_input);
 
-            System.out.println(" please choose the column you want to put: ");
+            System.out.println(" please choose the column you want to put: (the range is between 1 to "+ dimension + ")");
             int column_input = scan_input.nextInt();
             System.out.println("scan_column = " + column_input);
 
@@ -166,7 +169,9 @@ public class MainView extends Application {
             String direction_human = scan_input.next();
             System.out.println("direction_human = " + direction_human);
 
-            //add 1st tile into the board
+            //add scramble tiles into the board
+            int wordX=1;
+            int letterX=1;
             int rightAdjust=0;
             int downAdjust = 0;
             String direction;
@@ -175,10 +180,29 @@ public class MainView extends Application {
                     downAdjust=i;
                     square[row_input+rightAdjust-1][column_input+downAdjust-1].setTile(human_tryList.get(i));
                     square[row_input+rightAdjust-1][column_input+downAdjust-1].setOccupied(true);
+                    if(square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier() != 0){
+                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier());
+                        wordX= square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier();
+                        human_point *= (wordX-1);
+                    }else if (square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() !=0){
+                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has letterX: "+ square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() );
+                        letterX = square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier();
+                        human_point += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
+                    }
+
                 }else if(direction_human.equals("d")) {
                     rightAdjust = i;
                     square[row_input + rightAdjust-1][column_input + downAdjust-1].setTile(human_tryList.get(i));
                     square[row_input + rightAdjust-1][column_input + downAdjust-1].setOccupied(true);
+                    if(square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier() != 0){
+                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier());
+                        wordX= square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier();
+                        human_point *= (wordX-1);
+                    }else if (square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() !=0){
+                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has  letterX: "+ square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() );
+                        letterX = square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier();
+                        human_point += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
+                    }
                 }
             }
 
@@ -188,6 +212,7 @@ public class MainView extends Application {
                 }
                 System.out.println();
             }
+            System.out.println("2. human player's point = "+ human_point);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
