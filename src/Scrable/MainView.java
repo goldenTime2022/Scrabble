@@ -173,12 +173,12 @@ public class MainView extends Application {
             for(int i=0; i< human_tryList.size(); i++) {
                 if(direction_human.equals("r")){
                     downAdjust=i;
-                    square[row_input+rightAdjust][column_input+downAdjust].setTile(human_tryList.get(i));
-                    square[row_input+rightAdjust][column_input+downAdjust].setOccupied(true);
+                    square[row_input+rightAdjust-1][column_input+downAdjust-1].setTile(human_tryList.get(i));
+                    square[row_input+rightAdjust-1][column_input+downAdjust-1].setOccupied(true);
                 }else if(direction_human.equals("d")) {
                     rightAdjust = i;
-                    square[row_input + rightAdjust][column_input + downAdjust].setTile(human_tryList.get(i));
-                    square[row_input + rightAdjust][column_input + downAdjust].setOccupied(true);
+                    square[row_input + rightAdjust-1][column_input + downAdjust-1].setTile(human_tryList.get(i));
+                    square[row_input + rightAdjust-1][column_input + downAdjust-1].setOccupied(true);
                 }
             }
 
