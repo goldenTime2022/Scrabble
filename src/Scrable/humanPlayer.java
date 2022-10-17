@@ -24,5 +24,4 @@ public class humanPlayer {
         int inputKey = player_input.nextInt();
         return inputKey;
     }
-
 }

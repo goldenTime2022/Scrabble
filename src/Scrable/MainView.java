@@ -48,34 +48,21 @@ public class MainView extends Application {
         int frequency;
 
         Tile tile = new Tile("0", 0);
-        //hashmap store (tile, frequency)
-
-        //HashMap<Integer, Tile> listOfTiles = new HashMap<Integer, Tile>();
         List<Tile> listOfTiles = new ArrayList<>();
         try {
             Scanner scnr_tile_frequency = new Scanner(file_tile_frequency);
 
             while (scnr_tile_frequency.hasNextLine()) {
                 String[] values = scnr_tile_frequency.nextLine().split(" ");
-                //System.out.println(values[0]);
-                // System.out.println(values[1]);
-                //System.out.println(values[2]);
                 tile = new Tile(values[0], Integer.parseInt(values[1]));
-                //System.out.println(tile);
                 for (int i = 0; i < Integer.parseInt(values[2]); i++) {
                     listOfTiles.add(tile);
                 }
-                //System.out.println( "1st = "+ values[0].charAt(0)  +"; 2nd = " +Integer.parseInt(values[1]) +"; 3rd = " + Integer.parseInt(values[2]));
             }
-            System.out.println(listOfTiles.size());
             scnr_tile_frequency.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        //System.out.println();
-        //System.out.println("scramble Bag: "+listOfTiles.entrySet());
-        //System.out.println("----------------------------------------");
-
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //start scan the board
@@ -116,24 +103,25 @@ public class MainView extends Application {
             System.out.println("Computer tray: ");
             for (int i = 0; i < 7; i++) {
                 computerPlayer.take1(computerPlayerTray, listOfTiles);
-                System.out.print(computerPlayerTray.get(i).getLetter() +" ");
+                System.out.print(computerPlayerTray.get(i).getLetter() + " ");
             }
             System.out.println();
 
             //////////////////////////////////////////////////////////////////////////////////////////////
-            //player take up to 7 scrambles from scramble bag
+            //human player take up to 7 scrambles from scramble bag
             //Map<Integer, Tile> humanPlayerMap = new HashMap<>();
             List<Tile> humanPlayerTray = new ArrayList<>();
             System.out.println("Human tray: ");
             for (int i = 0; i < 7; i++) {
                 humanPlayer.take1(humanPlayerTray, listOfTiles);
-                System.out.print( humanPlayerTray.get(i).getLetter() +" ");
+                System.out.print(humanPlayerTray.get(i).getLetter() + " ");
             }
             System.out.println();
-            ///////////////////////////////////////////////////////////////////////////////////////////////////
-            //human player add the tile to board
-            int humanSingleWordPoint=0;
-            int humanTotalPoint=0;
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //human first add tiles to the board start from the middle of board
+            int humanSingleWordPoint = 0;
+            int humanTotalPoint = 0;
             List<Tile> human_tryList = new ArrayList<>();
             System.out.println("Please choose 2 or more tiles you want to add to the board: ");
             Scanner scan_input = new Scanner(System.in);
@@ -141,45 +129,135 @@ public class MainView extends Application {
             char[] humanInputCharArr = tile_input.toCharArray();
             System.out.println(" tile_input = " + tile_input);
 
+            //loop through the entail tray to find the match tile' letters and add to human_tryList and also delete from humanPlayerTray
             for (int j = 0; j < humanInputCharArr.length; j++) {
                 for (int i = 0; i < humanPlayerTray.size(); i++) {
-                    //System.out.println(humanPlayerTray.get(i).getLetter().equals(tile_input));
-                    //System.out.println(humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[0])));
                     if (humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[j]))) {
                         human_tryList.add(humanPlayerTray.get(i));
                         humanSingleWordPoint += humanPlayerTray.get(i).getValue();
-                        System.out.println("humanPlayerTray.get(i) = " + humanPlayerTray.get(i));
+                        //System.out.println("humanPlayerTray.get(i) = " + humanPlayerTray.get(i));
                         humanPlayerTray.remove(i);
                         break;
-
                     }
                 }
             }
 
-            System.out.println("1. human player's point = "+ humanSingleWordPoint);
-           System.out.println("main---human_tryList stream: "+human_tryList.stream().toList());
-           System.out.println("main---humanPlayerTray stream: "+humanPlayerTray.stream().toList());
+            System.out.println("main---human_tryList stream: "+human_tryList.stream().toList());
+            System.out.println("main---humanPlayerTray stream: "+humanPlayerTray.stream().toList());
+            System.out.println("at beginning of human player's single word points = " + humanSingleWordPoint);
+            System.out.println(" please choose the direction you want to put: (right for 'r'; down for 'd') ");
+            String direction_human = scan_input.next();
+            System.out.println("direction_human = " + direction_human);
+            ///////////////////////////////////////////////////////////////////////
+            //add scramble tiles into the board
+            int wordX = 1;
+            int letterX = 1;
+            int rightAdjust = 0;
+            int downAdjust = 0;
+            int row_input = dimension / 2;
+            int column_input = dimension / 2;
+            //loop every single letter and put it on the board
+            for (int i = 0; i < human_tryList.size(); i++) {
+                if (direction_human.equals("r")) { // direction to "right"
+                    downAdjust = i;
+                    square[row_input + rightAdjust ][column_input + downAdjust].setTile(human_tryList.get(i));
+                    square[row_input + rightAdjust ][column_input + downAdjust].setOccupied(true);
+                    wordX = square[row_input + rightAdjust][column_input + downAdjust].getWordMultiplier();
+                    letterX = square[row_input + rightAdjust][column_input + downAdjust].getLetterMultiplier();
+                    if (wordX != 0) {
+                        //System.out.println("human_tryList.get(i) = (" + human_tryList.get(i) + ") wordX: " + wordX);
+                        humanSingleWordPoint *= wordX;
+                    } else if (letterX != 0) {
+                        //System.out.println("human_tryList.get(i) = (" + human_tryList.get(i) + ") has letterX: " + letterX);
+                        humanSingleWordPoint += (letterX - 1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
+                    }
+                } else if (direction_human.equals("d")) { // direction to "down"
+                    rightAdjust = i;
+                    square[row_input + rightAdjust][column_input + downAdjust].setTile(human_tryList.get(i));
+                    square[row_input + rightAdjust][column_input + downAdjust].setOccupied(true);
+                    wordX = square[row_input + rightAdjust][column_input + downAdjust].getWordMultiplier();
+                    letterX = square[row_input + rightAdjust][column_input + downAdjust].getLetterMultiplier();
+                    if (wordX != 0) {
+                        //System.out.println("human_tryList.get(i) = (" + human_tryList.get(i) + ") wordX: " + wordX);
+                        humanSingleWordPoint *= wordX;
+                    } else if (letterX != 0) {
+                        //System.out.println("human_tryList.get(i) = (" + human_tryList.get(i) + ") has letterX: " + letterX);
+                        humanSingleWordPoint += (letterX - 1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
+                    }
+                }
+            }
 
+            //empty the human_tryList
+            human_tryList.clear();
+            humanTotalPoint += humanSingleWordPoint;
+            System.out.println("human player's single word points = " + humanSingleWordPoint);
+            System.out.println("human player's points = " + humanTotalPoint);
+
+            for (int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++) {
+                    System.out.print(square[i][j] + " ");
+                }
+                System.out.println();
+            }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //human player take up to 7 scrambles from scramble bag
+            for (int i = humanPlayerTray.size(); i < 7; i++) {
+                humanPlayer.take1(humanPlayerTray, listOfTiles);
+                //System.out.print(humanPlayerTray.get(i).getLetter() + " ");
+            }
+            System.out.println("Human tray has: ");
+            for (int i = 0; i < 7; i++) {
+                System.out.print(humanPlayerTray.get(i).getLetter() + " ");
+            }
+            System.out.println();
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //human player add the tile to board
+            humanSingleWordPoint=0;
+            //List<Tile> human_tryList = new ArrayList<>();
+            System.out.println("Please choose 2 or more tiles you want to add to the board: ");
+            //Scanner scan_input = new Scanner(System.in);
+            tile_input = scan_input.next();
+            humanInputCharArr = tile_input.toCharArray();
+            System.out.println(" tile_input = " + tile_input);
+
+            //loop through the entail tray to find the match tile' letters and add to human_tryList and also delete from humanPlayerTray
+            for (int j = 0; j < humanInputCharArr.length; j++) {
+                for (int i = 0; i < humanPlayerTray.size(); i++) {
+                    if (humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[j]))) {
+                        human_tryList.add(humanPlayerTray.get(i));
+                        humanSingleWordPoint += humanPlayerTray.get(i).getValue();
+                        //System.out.println("humanPlayerTray.get(i) = " + humanPlayerTray.get(i));
+                        humanPlayerTray.remove(i);
+                        break;
+                    }
+
+                }
+            }
+
+            //System.out.println("main---human_tryList stream: "+human_tryList.stream().toList());
+            //System.out.println("main---humanPlayerTray stream: "+humanPlayerTray.stream().toList());
 
             //Scanner scan_input = new Scanner(System.in);
             System.out.println(" please choose the row you want to put: (the range is between 1 to "+ dimension + ")");
-            int row_input = scan_input.nextInt();
+            row_input = scan_input.nextInt();
             System.out.println("scan_row = " + row_input);
 
             System.out.println(" please choose the column you want to put: (the range is between 1 to "+ dimension + ")");
-            int column_input = scan_input.nextInt();
+            column_input = scan_input.nextInt();
             System.out.println("scan_column = " + column_input);
 
 
             System.out.println(" please choose the direction you want to put: (right for 'r'; down for 'd') " );
-            String direction_human=  scan_input.next();
+            direction_human=  scan_input.next();
             System.out.println("direction_human = " + direction_human);
 
             //add scramble tiles into the board
-            int wordX=1;
-            int letterX=1;
-            int rightAdjust=0;
-            int downAdjust = 0;
+            wordX=1;
+            letterX=1;
+            rightAdjust=0;
+            downAdjust = 0;
             for(int i=0; i< human_tryList.size(); i++) {
                 if(direction_human.equals("r")){
                     downAdjust=i;
@@ -188,15 +266,11 @@ public class MainView extends Application {
                     wordX= square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier();
                     letterX = square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier();
                     if(wordX != 0){
-                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+wordX);
-                        System.out.println("2. human player's point = "+ humanSingleWordPoint);
+                        //System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+wordX);
                         humanSingleWordPoint *= wordX;
-                        System.out.println("3. human player's point = "+ humanSingleWordPoint);
                     }else if (letterX !=0){
-                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has letterX: "+ letterX );
-                        System.out.println("4. human player's point = "+ humanSingleWordPoint);
+                        //System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has letterX: "+ letterX );
                         humanSingleWordPoint += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
-                        System.out.println("5. human player's point = "+ humanSingleWordPoint);
                     }
 
                 }else if(direction_human.equals("d")) {
@@ -206,33 +280,34 @@ public class MainView extends Application {
                     wordX= square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier();
                     letterX = square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier();
                     if(wordX != 0){
-                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+wordX);
-                        System.out.println("6. human player's point = "+ humanSingleWordPoint);
-                        System.out.println("7. human player's point = "+ humanSingleWordPoint);
+                        //System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+wordX);
                         humanSingleWordPoint *= wordX;
                     }else if (letterX !=0){
-                        System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has letterX: "+ letterX );
-                        System.out.println("8. human player's point = "+ humanSingleWordPoint);
+                        //System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has letterX: "+ letterX );
                         humanSingleWordPoint += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
-                        System.out.println("9. human player's point = "+ humanSingleWordPoint);
                     }
-
                 }
             }
-            System.out.println("10. humanSingleWordPoint = "+ humanSingleWordPoint);
             humanTotalPoint += humanSingleWordPoint;
-            System.out.println("11 human player's point = "+ humanTotalPoint);
+            System.out.println("human player's single word points = "+humanSingleWordPoint);
+            System.out.println("human player's points = "+ humanTotalPoint);
+            //empty the human_tryList
+            human_tryList.clear();
+
             for (int i = 0; i < dimension; i++) {
                 for (int j = 0; j < dimension; j++) {
                     System.out.print(square[i][j] + " ");
                 }
                 System.out.println();
             }
-            System.out.println("12. human player's point = "+ humanTotalPoint);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
 
+    }
 }
+
+
+
+
 
