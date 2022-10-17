@@ -131,7 +131,8 @@ public class MainView extends Application {
             System.out.println();
             ///////////////////////////////////////////////////////////////////////////////////////////////////
             //human player add the tile to board
-            int human_point=0;
+            int humanSingleWordPoint=0;
+            int humanTotalPoint=0;
             System.out.println("Please choose the tile you want to add to the board: ");
             Scanner scan_input = new Scanner(System.in);
             String tile_input = scan_input.next();
@@ -144,7 +145,7 @@ public class MainView extends Application {
                     //System.out.println(humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[0])));
                     if (humanPlayerTray.get(i).equalsTile(String.valueOf(humanInputCharArr[j]))) {
                         human_tryList.add(humanPlayerTray.get(i));
-                        human_point += humanPlayerTray.get(i).getValue();
+                        humanSingleWordPoint += humanPlayerTray.get(i).getValue();
                         System.out.println("humanPlayerTray.get(i) = " + humanPlayerTray.get(i));
                         humanPlayerTray.remove(i);
                         break;
@@ -152,8 +153,9 @@ public class MainView extends Application {
                     }
                 }
             }
+            humanTotalPoint= humanSingleWordPoint;
             System.out.println("human_tryList stream: "+human_tryList.stream().toList());
-            System.out.println("1. human player's point = "+ human_point);
+            System.out.println("1. human player's point = "+ humanSingleWordPoint);
             System.out.println("humanPlayerTray stream: "+humanPlayerTray.stream().toList());
 
 
@@ -183,11 +185,11 @@ public class MainView extends Application {
                     if(square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier() != 0){
                         System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier());
                         wordX= square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier();
-                        human_point *= (wordX-1);
+                        humanTotalPoint += humanSingleWordPoint * wordX;
                     }else if (square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() !=0){
                         System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has letterX: "+ square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() );
                         letterX = square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier();
-                        human_point += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
+                        humanTotalPoint += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
                     }
 
                 }else if(direction_human.equals("d")) {
@@ -197,11 +199,11 @@ public class MainView extends Application {
                     if(square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier() != 0){
                         System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") wordX: "+square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier());
                         wordX= square[row_input+rightAdjust-1][column_input+downAdjust-1].getWordMultiplier();
-                        human_point *= (wordX-1);
+                        humanTotalPoint += humanSingleWordPoint * wordX;
                     }else if (square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() !=0){
                         System.out.println("human_tryList.get(i) = ("+ human_tryList.get(i)+") has  letterX: "+ square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier() );
                         letterX = square[row_input+rightAdjust-1][column_input+downAdjust-1].getLetterMultiplier();
-                        human_point += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
+                        humanTotalPoint += (letterX-1) * (human_tryList.get(i).getValue()); // letterX only for individual letter
                     }
                 }
             }
@@ -212,7 +214,7 @@ public class MainView extends Application {
                 }
                 System.out.println();
             }
-            System.out.println("2. human player's point = "+ human_point);
+            System.out.println("2. human player's point = "+ humanTotalPoint);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
