@@ -108,6 +108,11 @@ public class MainView extends Application {
             System.out.println();
 
             //////////////////////////////////////////////////////////////////////////////////////////////
+            //computer find all possible words
+            solveState.all_possible_word(partial_word, currentNode, computerPlayerTray);
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////
             //human player take up to 7 scrambles from scramble bag
             //Map<Integer, Tile> humanPlayerMap = new HashMap<>();
             List<Tile> humanPlayerTray = new ArrayList<>();
