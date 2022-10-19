@@ -11,7 +11,7 @@ public class humanPlayer {
         listOfTiles.remove(listOfTiles.get(index));
 
     }
-    public static Integer chooseKey(Map humanPlayerMap){
+   /* public static Integer chooseKey(Map humanPlayerMap){
         Random random = new Random();
         List<Integer> keys = new ArrayList<Integer>(humanPlayerMap.keySet());
         int k = keys.get(random.nextInt(keys.size()));
@@ -23,5 +23,5 @@ public class humanPlayer {
         System.out.println("Enter your key here: ");
         int inputKey = player_input.nextInt();
         return inputKey;
-    }
+    }*/
 }
