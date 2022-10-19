@@ -30,12 +30,12 @@ public class MainView extends Application {
         //////////////////////////////////////////////////////////////////////////////////////////////////
         // start scan the dictionary file and put it into Trie data structure
         //System.out.println("What is the file Name: ");
-        File file = new File("C:\\Users\\yun\\IdeaProjects\\scrabblegame\\dictionaryFile\\sowpods.txt");
+        File file = new File("src/dictionaryFile/sowpods.txt");
         try {
             Scanner scnr = new Scanner(file);
             while (scnr.hasNextLine()) {
                 String s = scnr.nextLine();
-                Trie.insert(s);
+                Trie.insert(s); // build up trie from dictionary
                 //System.out.println(Trie.); // how to print out trie Data structure
             }
             scnr.close();
@@ -100,17 +100,14 @@ public class MainView extends Application {
             ///////////////////////////////////////////////////////////////////////////////////
             //computer take up to 7 from scramble bag
             List<Tile> computerPlayerTray = new ArrayList<>();
+            StringBuffer rack = new StringBuffer();
             System.out.println("Computer tray: ");
             for (int i = 0; i < 7; i++) {
                 computerPlayer.take1(computerPlayerTray, listOfTiles);
+                rack.append(computerPlayerTray.get(i).getLetter());
                 System.out.print(computerPlayerTray.get(i).getLetter() + " ");
             }
             System.out.println();
-
-            //////////////////////////////////////////////////////////////////////////////////////////////
-            //computer find all possible words
-            solveState.all_possible_word(partial_word, currentNode, computerPlayerTray);
-
 
             //////////////////////////////////////////////////////////////////////////////////////////////
             //human player take up to 7 scrambles from scramble bag
@@ -217,6 +214,12 @@ public class MainView extends Application {
             }
             System.out.println();
 
+            //////////////////////////////////////////////////////////////////////////////////////////////
+            //computer find all possible words
+            solveState.all_possible_word(rack);
+
+
+/*
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             //human player add the tile to board
             humanSingleWordPoint=0;
@@ -240,6 +243,11 @@ public class MainView extends Application {
 
                 }
             }
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //human player's word is it legal
+            Trie.trieSearch(tile_input);
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             //System.out.println("main---human_tryList stream: "+human_tryList.stream().toList());
             //System.out.println("main---humanPlayerTray stream: "+humanPlayerTray.stream().toList());
@@ -304,7 +312,7 @@ public class MainView extends Application {
                     System.out.print(square[i][j] + " ");
                 }
                 System.out.println();
-            }
+            }*/
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

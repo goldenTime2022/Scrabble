@@ -6,25 +6,29 @@ import java.util.List;
 public class solveState {
     Trie dictionary;
 
-    public static void legal_move(String word){
-        System.out.println("Found a word: "+ word);
+    public static void legal_move(StringBuffer word){
+        System.out.println("Found a letter combination: "+ word);
     }
 
-    public static List<String> all_possible_word(String partial_word, TrieNode currentNode, List<Tile> computerPlayerTray){
-        List<String> all_possible_list =new ArrayList<>();
-        if(currentNode.isWord){
-            legal_move(partial_word);
-            all_possible_list.add(partial_word);
-        }
-        for(Character nextLetter: currentNode.children.keySet()){
-            if(computerPlayerTray.contains(nextLetter)){
-                computerPlayerTray.remove(nextLetter);
-                all_possible_word(partial_word+nextLetter, currentNode.children[nextLetter], computerPlayerTray);
-            }
-            computerPlayerTray.add(nextLetter);
-        }
+    ///////////////////////////////////////////////////////////////
+    // find all possible letters combination --- back tracking
+    public static void possible_combination(StringBuffer partial_word, TrieNode current_node, StringBuffer rack){
+       if(current_node.isWord){
+           legal_move(partial_word);
+       }
+       for(Character nextLetter: current_node.children.keySet()){
+           if(rack.indexOf(nextLetter.toString()) != -1){
+               rack.deleteCharAt(rack.indexOf(Character.toString(nextLetter)));
+               possible_combination(partial_word, current_node, rack);
+           }
+           rack.append(nextLetter);
+       }
 
-        return all_possible_list;
+    }
+
+
+    public static void all_possible_word(StringBuffer rack){
+        possible_combination( null, Trie.root, rack);
     }
 
 }
