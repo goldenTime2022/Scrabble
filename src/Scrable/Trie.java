@@ -17,7 +17,7 @@ public class Trie {
         char[] charArr = word.toCharArray(); // separate string to char
         for (char curChar: charArr) { // loop through each individual char
            // int index = curChar - 'a';
-            if(current.children.get(curChar)==null){ // if current's child do not have this char
+            if(current.children.containsKey(curChar)){ // if current's child do not have this char
                 TrieNode newTrieNode = new TrieNode();
                 current.children.put( curChar,newTrieNode); // create new an empty Tried node
                 current = newTrieNode; // move to next node
@@ -34,7 +34,7 @@ public class Trie {
         char[] charArr = word.toCharArray(); // separate string to char
         for (char curChar: charArr) { // loop through each individual char
             int index = curChar - 'a';
-            if(current.children.get(curChar)==null){ // if current's child do not have this char
+            if(current.children.containsKey(curChar)){ // if current's child do not have this char
                 return false; // give up
             }else{
                 current = current.children.get(curChar);
