@@ -1,31 +1,23 @@
 package Scrable;
 
-import com.sun.jdi.Value;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class TrieNode {
-    boolean isWord;
-    HashMap<Character, TrieNode> children;
-    public TrieNode(){
-        this.isWord = false;
-        children= new HashMap<>();
+    private static final int ALPHABET_SIZE = 26;
+        TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+        int index;
+        boolean isWord;
+        TrieNode(){
+            isWord = false;
+            for(int i=0; i< ALPHABET_SIZE; i++){
+                children[i]=null;
+                index=ALPHABET_SIZE-97;
+            }
+        }
+        /*public static int find_index(){
+            int i=0;
+            while(i< 26){
+                if(children[i].)
+            }
+            return index;
+        }*/
     }
 
-    public boolean isWord() {
-        return isWord;
-    }
-
-    public void setWord(boolean word) {
-        isWord = word;
-    }
-
-    public HashMap<Character, TrieNode>  getChildren() {
-        return children;
-    }
-
-    public void setChildren(HashMap<Character, TrieNode> children) {
-        this.children = children;
-    }
-}

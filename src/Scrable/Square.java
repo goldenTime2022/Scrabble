@@ -1,16 +1,26 @@
 package Scrable;
 
 public class Square {
+    Position position;
     int wordMultiplier;
     int letterMultiplier;
-    Tile tile;
     boolean occupied;
+    Tile tile;
 
-    public Square(int wordMultiplier, int letterMultiplier, boolean occupied, Tile tile) {
+    public Square(Position position, int wordMultiplier, int letterMultiplier, boolean occupied, Tile tile) {
+        this.position = position;
         this.wordMultiplier = wordMultiplier;
         this.letterMultiplier = letterMultiplier;
-        this.tile = tile;
         this.occupied = occupied;
+        this.tile = tile;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public int getWordMultiplier() {
@@ -30,6 +40,11 @@ public class Square {
     }
 
     public boolean isOccupied() {
+        if(this.getTile()!=null){
+            occupied=true;
+        }else{
+            occupied=false;
+        }
         return occupied;
     }
 
@@ -43,6 +58,28 @@ public class Square {
 
     public void setTile(Tile tile) {
         this.tile = tile;
+    }
+    public boolean in_bounds(int row, int column, int board_size){
+        if(position.getRow()>=0 && position.getColumn()< board_size && position.getColumn()>=0 && position.getColumn() < board_size){
+            return true;
+        }
+        return false;
+    }
+    public boolean is_empty(int row, int column, int board_size){
+        if(in_bounds(row, column, board_size)){
+            if(this.getTile()==null){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean is_filled(int row, int column, int board_size){
+        if(in_bounds( row, column, board_size)){
+            if(this.getTile()!=null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
