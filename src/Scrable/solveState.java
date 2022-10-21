@@ -70,28 +70,31 @@ public class solveState {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static void legal_move(StringBuffer word){
+    public static void legal_move(String word){
         System.out.println("Found a letter combination: "+ word);
     }
 
     ///////////////////////////////////////////////////////////////
     // find all possible letters combination --- back tracking
-    public static void all_words(StringBuffer partial_word, TrieNode current_node, String rack){
-       if(current_node.isWord){
+    public static void all_words(String partial_word, TrieNode current_node, String rack){
+       if(current_node.isWord ){
            legal_move(partial_word);
        }
-       //for(int i=0; i< rack.length(); i++) {
-           //current_node.children[Integer.parseInt(rack.charAt(i))];
         char[] charArr = rack.toCharArray();
-       for(TrieNode node: current_node.children){ //loop through current's children
-           for(char curChar: charArr) { // loop through rack
-               System.out.println("node.index = " + node.index);
-               System.out.println("(curChar - 97) = " +(curChar - 97));
-               if (node.index == (curChar - 97)) { // if one of the children's index key == one of rack's char---if next children's key is this letter, then continue
-                   String sub_rack = rack.replace(String.valueOf(curChar), ""); // delete curChar from rack, because after next recursion, curChar need to add back to rack at the previous position, so just make a sub_rack put into recursion call
-                   all_words(partial_word.append(curChar), current_node.children[node.index], sub_rack);
-               }
-           }
+            for(char key: current_node.children.keySet()) { //loop through current's children
+                for (char curChar : charArr) { // loop through rack
+                    if(key == curChar) {
+                        partial_word+=curChar;
+                        rack = rack.replace(String.valueOf(curChar), ""); // delete curChar from rack, because after next recursion, curChar need to add back to rack at the previous position, so just make a sub_rack put into recursion call
+                        System.out.println("rack = "+ rack);
+                        System.out.println();
+                        all_words(partial_word, current_node.children.get(key), rack);
+                        System.out.println("--------------------------------------");
+                        rack += curChar;
+                    }
+
+                }
+            }
        }
 
        /*
@@ -103,11 +106,9 @@ public class solveState {
            rack.append(nextLetter);
        }
     */
-    }
-
 
     public static void all_possible_word(String rack){
-        all_words(null, Trie.root, rack);
+        all_words("", Trie.root, rack);
     }
 
 }

@@ -228,7 +228,7 @@ public class MainView extends Application {
 
             //////////////////////////////////////////////////////////////////////////////////////
             //computer find out all possible words
-            //solveState.all_possible_word(rack);
+            solveState.all_possible_word(rack);
 
             /////////////////////////////////////////////////////////////////////////////////
             //computer find all anchors
