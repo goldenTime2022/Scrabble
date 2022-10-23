@@ -48,6 +48,4 @@ public class Trie {
             }
             return current;
         }
-
-
 }

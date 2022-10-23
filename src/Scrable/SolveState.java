@@ -168,7 +168,7 @@ public class SolveState {
                              for(char checkChar: checkList) {
                                  if (checkChar == key) {
                                      rack.deleteCharAt(i);
-                                     next_position.column += 1; // what is different with .getcolumn????
+                                     next_position.column += 1; // what is different with .get column????
                                      extend_right(partial_word += key, current_node.children.get(key), next_position,  squares);
                                  }
                              }
