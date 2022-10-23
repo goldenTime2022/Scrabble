@@ -170,6 +170,7 @@ public class SolveState {
                                      rack.deleteCharAt(i);
                                      next_position.column += 1; // what is different with .get column????
                                      extend_right(partial_word += key, current_node.children.get(key), next_position,  squares);
+                                     rack.append(checkChar);
                                  }
                              }
                             //how to go to sibling node
