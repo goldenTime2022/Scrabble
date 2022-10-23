@@ -9,7 +9,7 @@ public class Board<Positions> {
     int size;
     List<Position> all_position;
     //Tile[] all_tiles;
-    Square[][] square;
+    public static Square[][] square;
 
     public Board(int size, Square[][] square) {
         this.size = size;
