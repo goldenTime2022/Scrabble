@@ -1,7 +1,7 @@
 package Scrable;
 
-public class Square {
-    Position position;
+public static class Square {
+    public static Position position;
     int wordMultiplier;
     int letterMultiplier;
     boolean occupied;
@@ -15,31 +15,31 @@ public class Square {
         this.tile = tile;
     }
 
-    public Position getPosition() {
+    public static Position getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public static void setPosition(Position position) {
         this.position = position;
     }
 
-    public int getWordMultiplier() {
+    public static int getWordMultiplier() {
         return wordMultiplier;
     }
 
-    public void setWordMultiplier(int wordMultiplier) {
+    public static void setWordMultiplier(int wordMultiplier) {
         this.wordMultiplier = wordMultiplier;
     }
 
-    public int getLetterMultiplier() {
+    public static int getLetterMultiplier() {
         return letterMultiplier;
     }
 
-    public void setLetterMultiplier(int letterMultiplier) {
+    public static void setLetterMultiplier(int letterMultiplier) {
         this.letterMultiplier = letterMultiplier;
     }
 
-    public boolean isOccupied() {
+    public static boolean isOccupied() {
         if(this.getTile()!=null){
             occupied=true;
         }else{
@@ -48,7 +48,7 @@ public class Square {
         return occupied;
     }
 
-    public void setOccupied(boolean occupied) {
+    public static void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
 

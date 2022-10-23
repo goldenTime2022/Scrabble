@@ -10,7 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainView extends Application {
+    //public static String rack = new String();
+    public static int board_size=0;
+    public static StringBuffer rack = new StringBuffer();
+    public static Square[][] squares;
 
+    //public static char[] charArr_rack;
     public static void main(String[] args) {
         launch(args);
     }
@@ -33,8 +38,20 @@ public class MainView extends Application {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        //computer find out all possible words
 
+        rack.append('p');
 
+        rack.append('d');
+        rack.append('t');
+        rack.append('b');
+        rack.append('e');
+        rack.append('a');
+        solveState.all_possible_word();
+    }
+}
+
+/*
         //////////////////////////////////////////////////////////////////////////////////////////////
         // scan the total tile into the tile_frequency_file and create the list of tiles
         File file_tile_frequency = new File("dictionaryFile/wordswithfriends_tiles.txt");
@@ -64,7 +81,7 @@ public class MainView extends Application {
         try {
             Scanner scan_Board = new Scanner(fileBoard);
             String d = scan_Board.nextLine();
-            int dimension = Integer.parseInt(d);
+            int board_size = Integer.parseInt(d);
             String[] value;
             char[] charArr;
             Position position;
@@ -214,11 +231,11 @@ public class MainView extends Application {
             ///////////////////////////////////////////////////////////////////////////////////
             //computer take up to 7 from scramble bag
             List<Tile> computerPlayerTray = new ArrayList<>();
-            String rack = new String();
+            //static String rack = new String();
             System.out.println("Computer tray: ");
             for (int i = 0; i < 7; i++) {
                 computerPlayer.take1(computerPlayerTray, listOfTiles);
-                rack += (computerPlayerTray.get(i).getLetter());
+                rack.append(computerPlayerTray.get(i).getLetter());
                 System.out.print(computerPlayerTray.get(i).getLetter() + " ");
             }
             System.out.println();
@@ -228,7 +245,7 @@ public class MainView extends Application {
 
             //////////////////////////////////////////////////////////////////////////////////////
             //computer find out all possible words
-            solveState.all_possible_word(rack);
+            solveState.all_possible_word();
 
             /////////////////////////////////////////////////////////////////////////////////
             //computer find all anchors
@@ -340,8 +357,7 @@ public class MainView extends Application {
         }
     }
 }
-
-
+*/
 
 
 

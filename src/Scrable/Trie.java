@@ -36,6 +36,18 @@ public class Trie {
             }
             return current.isWord;
         }
+        public static TrieNode startWith(String word){
+            word = word.toLowerCase(); // change all word to lower case
+            TrieNode current = root;  // every time insert start from root
+            char[] charArr = word.toCharArray(); // separate string to char
+            for (char curChar : charArr) { // loop through each individual char
+                if (current.children.get(curChar)==null) { // if current's child do not have this char
+                    return null;
+                }
+                current= current.children.get(curChar);
+            }
+            return current;
+        }
 
 
 }
