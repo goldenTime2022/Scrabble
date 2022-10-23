@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class computerPlayer {
+public class ComputerPlayer {
     public static void take1(List<Tile> computerPlayerTray, List<Tile> listOfTiles){
         Random random = new Random();
         int index = random.nextInt(listOfTiles.size());

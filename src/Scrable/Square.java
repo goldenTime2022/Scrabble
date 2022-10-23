@@ -1,6 +1,6 @@
 package Scrable;
 
-public static class Square {
+public class Square {
     public static Position position;
     int wordMultiplier;
     int letterMultiplier;
@@ -15,31 +15,31 @@ public static class Square {
         this.tile = tile;
     }
 
-    public static Position getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public static void setPosition(Position position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
-    public static int getWordMultiplier() {
+    public int getWordMultiplier() {
         return wordMultiplier;
     }
 
-    public static void setWordMultiplier(int wordMultiplier) {
+    public void setWordMultiplier(int wordMultiplier) {
         this.wordMultiplier = wordMultiplier;
     }
 
-    public static int getLetterMultiplier() {
+    public int getLetterMultiplier() {
         return letterMultiplier;
     }
 
-    public static void setLetterMultiplier(int letterMultiplier) {
+    public void setLetterMultiplier(int letterMultiplier) {
         this.letterMultiplier = letterMultiplier;
     }
 
-    public static boolean isOccupied() {
+    public boolean isOccupied() {
         if(this.getTile()!=null){
             occupied=true;
         }else{
@@ -48,7 +48,7 @@ public static class Square {
         return occupied;
     }
 
-    public static void setOccupied(boolean occupied) {
+    public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
 
@@ -59,22 +59,22 @@ public static class Square {
     public void setTile(Tile tile) {
         this.tile = tile;
     }
-    public boolean in_bounds(int row, int column, int board_size){
-        if(position.getRow()>=0 && position.getColumn()< board_size && position.getColumn()>=0 && position.getColumn() < board_size){
+    public boolean in_bounds(int row, int column ){
+        if(row>=0 && row< MainView.squares.length && column>=0 && column < MainView.squares[0].length){
             return true;
         }
         return false;
     }
-    public boolean is_empty(int row, int column, int board_size){
-        if(in_bounds(row, column, board_size)){
+    public boolean is_empty(int row, int column){
+        if(in_bounds(row, column)){
             if(this.getTile()==null){
                 return true;
             }
         }
         return false;
     }
-    public boolean is_filled(int row, int column, int board_size){
-        if(in_bounds( row, column, board_size)){
+    public boolean is_filled(int row, int column){
+        if(in_bounds( row, column)){
             if(this.getTile()!=null) {
                 return true;
             }

@@ -2,7 +2,7 @@ package Scrable;
 
 import java.util.*;
 
-public class humanPlayer {
+public class HumanPlayer {
     public static void take1(List<Tile> humanPlayerTray, List<Tile> listOfTiles){
         Random random = new Random();
         int index = random.nextInt(listOfTiles.size());
